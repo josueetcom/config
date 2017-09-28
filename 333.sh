@@ -1,3 +1,4 @@
+# Runs executable, doing a backtrace after a seg fault or verify 333 failure
 function verify333 {
   gdb -ex "b VerificationFailure" -ex "r" -ex "bt" $@
 }
