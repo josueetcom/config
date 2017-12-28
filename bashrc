@@ -18,8 +18,9 @@ source ~/config/git-prompt.sh
 source ~/config/colors.sh
 
 function __set_ps1() {
+  local code=$?
   load_ps1_bright_colors
-  local status=`(( $? == 0 )) && echo $PS1_G || echo $PS1_R`
+  local status=`(( $code == 0 )) && echo $PS1_G || echo $PS1_R`
   PS1="${status}\u@${PS1_C}\h${PS1_Y}:\w${PS1_B}`__git_ps1`${PS1_Y}\$ ${PS1_0}"
 }
 
@@ -27,6 +28,9 @@ export PROMPT_COMMAND=__set_ps1
 
 # Add own scripts located in ~/bin to the path
 export PATH=$PATH:$HOME/bin
+
+# Sources ~/config/vimrc
+export VIMINIT='let $MYVIMRC="~/config/vimrc" | source $MYVIMRC'
 
 # Source my aliases
 source ~/config/aliases.sh
@@ -64,7 +68,7 @@ function vi-snip {
     echo "what language??"
     return
   fi
-  vi ~/.vim/bundle/snipmate.vim/snippets/$1.snippets
+  vi ~/config/vim/bundle/snipmate.vim/snippets/$1.snippets
 }
 
 function vi-colo {
@@ -72,7 +76,7 @@ function vi-colo {
     echo "what colorscheme??"
     return
   fi
-  vi ~/.vim/colors/$1.vim
+  vi ~/config/vim/colors/$1.vim
 }
 
 function vi-syntax {
@@ -80,7 +84,15 @@ function vi-syntax {
     echo "what language??"
     return
   fi
-  vi ~/.vim/syntax/$1.vim
+  vi ~/config/vim/syntax/$1.vim
+}
+
+function vi-ft {
+  if [[ $# -ne 1 ]]; then
+    echo "what language??"
+    return
+  fi
+  vi ~/config/vim/ftplugin/after/$1.vim
 }
 
 
