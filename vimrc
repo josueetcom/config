@@ -40,7 +40,7 @@ inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
   \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 let completionLevel=0
 
-function CustomComplete(findstart, base)
+function! CustomComplete(findstart, base)
   if a:findstart
     let synres = syntaxcomplete#Complete(a:findstart, a:base)
     let omnires = function(&omnifunc)(a:findstart, a:base)
@@ -62,7 +62,7 @@ function CustomComplete(findstart, base)
   return res
 endfunction
 
-function InvokeComplete()
+function! InvokeComplete()
   let expr = ''
 
   if g:completionLevel == 1 && &completefunc != ""
@@ -153,11 +153,20 @@ let g:acp_behaviorSnipmateLength=1
 " 6. NerdTree! Make it easier to navigate around
 Plugin 'scrooloose/nerdtree'
 " Open it on vim enter!
-au VimEnter * NERDTree
+au VimEnter *.* NERDTree | wincmd p
 " Close it when it's the only thing left!
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" TODO: Toggle and/or Focus Shortcut
 
+" 7. NerdCommenter! Smart commenting!
+Plugin 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters
+let g:NERDCustomDelimiters = { 'c': { 'left': '//','right': '' } }  " // style
+let g:NERDDefaultAlign = 'left' " Align line-wise comments to flush left
+let g:NERDCommentEmptyLines = 1 " Allow commenting/inverting empty lines (useful when commenting a region)
+let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
+
+" 8. Show Git Diff!
+Plugin 'airblade/vim-gitgutter'
 
 " For seamless tmux/vim split navigation
 " Plugin 'christoomey/vim-tmux-navigator'
@@ -183,7 +192,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 let g:airline_theme="one" 
 
-" Catches syntax issues
+" Catches syntax issuesV
 " pip install pylint
 Plugin 'scrooloose/syntastic'
 set statusline+=%#warningmsg#
@@ -226,7 +235,7 @@ map <F3> :execute "ptag " . expand("<cword>") <CR>
 map <C-b> :exe "ptag " . expand("<cword>") <CR> 
 imap <C-b> <Esc><C-b>
 
-" Custom functions for Tab and Shift-Tab
+" (Unused) Custom functions for Tab and Shift-Tab
 function! Tab_Or_Complete()
   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
     return pumvisible() ? "\<C-N>" : "\<Tab>"
@@ -251,11 +260,7 @@ endfunction
 " and use SnipMate for my Tab button instead in insert mode
 " inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 " inoremap <S-Tab> <C-R>=Shift_Tab_Or_Complete()<CR>
-inoremap <S-Tab> <Esc><<i
-nnoremap <Tab> >> 
-nnoremap <S-Tab> <<
-vnoremap <Tab> >gv
-vnoremap <S-Tab> <gv
+
 
 " Maps shift + direction (h, j, k, l) to select for visual much like you'd do
 " shift-arrow in an IDE
@@ -296,26 +301,6 @@ nmap <C-Right> <C-w><Right>
 " Better editing/navigation
 " Alt key mappings (Linux + Mac)
 
-" Shift+Ctrl+Down - move the line one down
-inoremap [1;6B <Esc>:m .+1<CR>==gi
-nnoremap [1;6B :m .+1<CR>==
-vnoremap [1;6B :m '>+1<CR>gv=gv
-
-" Shift+Ctrl+Up - move the line one up
-inoremap [1;6A <Esc>:m .-2<CR>==gi
-nnoremap [1;6A :m .-2<CR>==
-vnoremap [1;6A :m '>-2<CR>gv=gv
-
-" Ctrl+d - duplicate the line/selection
-inoremap <C-d> <Esc>yypi
-vnoremap <C-d> yPgv
-
-" Ctrl+e - go to the end of the current line
-inoremap <C-e> <Esc>$a
-
-" Ctrl+f - go to the front of the current line
-inoremap <C-f> <Esc>^i
-
 " Ctrl+g - go to line number
 inoremap <C-g> <Esc>:
 nnoremap <C-g> :
@@ -333,7 +318,7 @@ noremap <silent> . :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR
 " 333 HW3 Hex Tools!
 " Use :Hex to hexdump a file
 " Use :GoHex 0001 010f to go to file position 0x1010f
-command Hex %!xxd
+command! Hex %!xxd
 
 function! GoToHex(p)
   let p = substitute(a:p, ' ', '', 'g')
@@ -372,11 +357,11 @@ augroup autoformat_settings
   autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
   autocmd FileType dart AutoFormatBuffer dartfmt
   autocmd FileType go AutoFormatBuffer gofmt
-"   autocmd FileType gn AutoFormatBuffer gn
-"   autocmd FileType html,css,json AutoFormatBuffer js-beautify
-"   autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
-"   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
 augroup END
 
 " For local replace
@@ -385,7 +370,5 @@ nnoremap gr gd[{V%::s/<C-R>///gc<left><left><left>
 " For global replace
 nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
-" Requires in your .bashrc:
-" stty -ixon
-imap <C-s> <esc>:w<CR>a
-map <C-s> :w<CR>
+" TODO: Come up with a better sourcing solution
+source /homes/iws/jrios777/config/shortcuts.vim
