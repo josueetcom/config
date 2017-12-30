@@ -5,8 +5,6 @@
 " Raw key sequences look a bit weird, to understand this mapping,
 " Check out: https://github.com/mintty/mintty/wiki/Keycodes#modifier-key-encodings
 
-
-
 " Understanding complex raw key bindings that use arrows
 " Up      OA
 " Down    OB
@@ -59,6 +57,16 @@ inoremap [1;2D <esc>vh
 noremap [1;2D vh
 vnoremap [1;2D h
 
+" Shift + Ctrl + Left
+inoremap [1;6D <esc>vb
+nnoremap [1;6D vb
+vnoremap [1;6D b
+
+" Shift + Ctrl + Right
+inoremap [1;6C <esc>vw
+nnoremap [1;6C vw
+vnoremap [1;6C w
+
 " ==== Basic ====
 " Normal key mappings in everything but vim/emacs
 vnoremap  y
@@ -73,7 +81,15 @@ noremap <C-z> u
 inoremap <C-z> <esc>ui
 
 " Redo - Ctrl + R
-imap <C-r> <esc><C-r><CR>a
+inoremap <C-r> <esc><C-r><CR>a
+
+" Find - Ctrl + F
+inoremap <C-f> <esc>/
+nnoremap <C-f> /
+
+" Replace - Shift + Ctrl + F
+inoremap  <esc>:%s///gc<left><left><left><left>
+nnoremap  :%s///gc<left><left><left><left>
 
 " Duplicate Line - Shift + Ctrl + D
 inoremap  <Esc>yypi
@@ -107,6 +123,10 @@ vnoremap i =
 " Show/Hide Project Tree - Alt + 1
 map 1 :NERDTreeToggle<CR>
 imap 1 <esc>:NERDTreeToggle<CR>a
+
+" Show/Hide Outline - Alt + 7
+map 7 :TagbarToggle<CR>
+imap 7 <esc>:TagbarToggle<CR>a
 
 
 " Comment/Uncomment

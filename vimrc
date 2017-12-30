@@ -168,6 +168,13 @@ let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace wh
 " 8. Show Git Diff!
 Plugin 'airblade/vim-gitgutter'
 
+" 9. Class Outline Viewer!
+Plugin 'majutsushi/tagbar'
+
+" 10. Maintain tags up to date automagically!
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+
 " For seamless tmux/vim split navigation
 " Plugin 'christoomey/vim-tmux-navigator'
 
