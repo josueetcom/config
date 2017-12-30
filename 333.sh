@@ -5,7 +5,7 @@ function verify333 {
 
 # searches typedefs and #defines for the label
 function cgrep {
-  egrep -n "((typedef|}|#define).*$@(;|\\w)|[^=]+ $@\\(.*)" *.h */*.h *.cc
+  egrep -r -n "((typedef|}|#define).*$@(;|\\w)|[^=]+ $@\\(.*)" *.h */*.h *.cc
 }
 
 # Shortcut aliases for C/C++

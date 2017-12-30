@@ -69,10 +69,10 @@ vnoremap [1;6C w
 
 " ==== Basic ====
 " Normal key mappings in everything but vim/emacs
-vnoremap  y
-vnoremap  d
-nnoremap  
-nnoremap  p
+vnoremap <C-C> y
+vnoremap <C-X> d
+nnoremap <C-Q> 
+nnoremap <C-V> p
 
 " ==== Edit =====
 
@@ -81,7 +81,7 @@ noremap <C-z> u
 inoremap <C-z> <esc>ui
 
 " Redo - Ctrl + R
-inoremap <C-r> <esc><C-r><CR>a
+inoremap <C-r> <esc><C-r>a
 
 " Find - Ctrl + F
 inoremap <C-f> <esc>/
@@ -118,7 +118,7 @@ vnoremap <S-Tab> <gv
 " Auto Indent - Alt + I
 vnoremap i =
 
-" ==== Code ====
+" ==== View ====
 
 " Show/Hide Project Tree - Alt + 1
 map 1 :NERDTreeToggle<CR>
@@ -128,6 +128,48 @@ imap 1 <esc>:NERDTreeToggle<CR>a
 map 7 :TagbarToggle<CR>
 imap 7 <esc>:TagbarToggle<CR>a
 
+" ==== Navigate ====
+
+" Header/Source switcher for C/C++
+fun! SwapHeaderSource()
+  let $f = bufname("")
+  let suffixes = ['.c', '.cc', '.cpp']
+  
+  if matchend($f, '.h') > 0
+    let base = strpart($f, 0, strlen($f) - 2)
+    for end in suffixes
+      if filereadable(base . end)
+        let $f = base . end
+        break
+      endif
+    endfor
+  else
+    for end in suffixes
+      if matchend($f, end) > 0
+        let base = strpart($f, 0, strlen($f) - strlen(end))
+        if filereadable(base . ".h")
+          let $f = base . ".h"
+        endif
+        break
+      endif
+    endfor
+  endif
+
+  if $f != bufname("")
+    find $f
+  else
+    echo "Unable to finding a matching header/source file for " $f
+  endif
+endf
+
+map <F2> :call SwapHeaderSource()<CR>
+
+" ==== Code ====
+
+
+" Go to Definition - Ctrl + B
+map <C-B> :exe "tag " . expand("<cword>") <CR>
+imap <C-B> <esc><C-B>
 
 " Comment/Uncomment
 " Mapping: Ctrl + /

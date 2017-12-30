@@ -139,6 +139,8 @@ let g:acp_behaviorKeywordCommand = "\<C-n>"
 Plugin 'Rip-Rip/clang_complete'
 " path to directory where clang library can be found
 let g:clang_library_path = $HOME . '/Downloads/clang/lib/libclang.so.3.8'
+let g:clang_snippets = 1 " Snippets magic! Press <esc><Tab> to fill in the next argument
+let g:clang_jumpto_declaration_key = 0 " disabled
 
 " 4. Autoclose matching character pairs! (I have a modded version of this to
 " better accomodate when pressing <CR> in lexima#insmode#_expand(char) to check
@@ -174,6 +176,9 @@ Plugin 'majutsushi/tagbar'
 " 10. Maintain tags up to date automagically!
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
+
+" 11. Let me find usages of tags easily!
+Plugin 'utags'
 
 " For seamless tmux/vim split navigation
 " Plugin 'christoomey/vim-tmux-navigator'
@@ -239,8 +244,6 @@ map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **/*.h" <Bar> cw<CR>
 " Look into ctags. "ctags -R ." in working directory.
 " Pressing F3 will jump to where the word under the cursor was defined
 map <F3> :execute "ptag " . expand("<cword>") <CR>
-map <C-b> :exe "ptag " . expand("<cword>") <CR> 
-imap <C-b> <Esc><C-b>
 
 " (Unused) Custom functions for Tab and Shift-Tab
 function! Tab_Or_Complete()
