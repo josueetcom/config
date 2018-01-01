@@ -115,6 +115,11 @@ func! DeleteTrailingWS()
   exe "normal `z"
 endfunction
 
+" Folding
+set foldmethod=indent
+autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
+autocmd Syntax * normal zR
+
 command! DeleteWhitespace call DeleteTrailingWS()
 
 " *** PLUGINS ***
@@ -176,6 +181,12 @@ Plugin 'majutsushi/tagbar'
 " 10. Maintain tags up to date automagically!
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
+let g:easytags_events = ['BufWritePost']
+set tags=./tags;
+let g:easytags_dynamic_files = 1
+
+" 11. Let me surround stuff easily!
+Plugin 'tpope/vim-surround'
 
 " 11. Let me find usages of tags easily!
 Plugin 'utags'

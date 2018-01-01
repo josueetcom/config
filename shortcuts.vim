@@ -30,6 +30,10 @@
 imap <C-s> <esc>:w<CR>a
 map <C-s> :w<CR>
 
+" Shortcuts Help - Shift + F1
+imap [1;2P <esc>:split ~/.vim/doc/josh.txt<cr>
+map [1;2P :split ~/.vim/doc/josh.txt<cr>
+
 
 " ==== Navigate ====
 " Next tab - gt in normal mode
@@ -164,12 +168,23 @@ endf
 
 map <F2> :call SwapHeaderSource()<CR>
 
-" ==== Code ====
-
 
 " Go to Definition - Ctrl + B
 map <C-B> :exe "tag " . expand("<cword>") <CR>
 imap <C-B> <esc><C-B>
+
+" ==== Code ====
+
+" Surround with - Shift + Ctrl + T
+" Followed by:
+"   "'`)}]>  for surrounding the word/selection with the appropriate pair
+"   ([{  do the same but with whitespace within the surrounding pair
+"
+" Note that you'll have to type a or i to go back to insert mode
+imap  <esc>ysiw
+map  ysiw
+vmap  S
+
 
 " Comment/Uncomment
 " Mapping: Ctrl + /
