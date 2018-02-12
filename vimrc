@@ -118,7 +118,7 @@ endfunction
 " Folding
 set foldmethod=indent
 autocmd Syntax c,cpp,vim,xml,html,xhtml setlocal foldmethod=syntax
-autocmd Syntax * normal zR
+autocmd BufRead * normal zR
 
 command! DeleteWhitespace call DeleteTrailingWS()
 
@@ -144,7 +144,7 @@ let g:acp_behaviorKeywordCommand = "\<C-n>"
 Plugin 'Rip-Rip/clang_complete'
 " path to directory where clang library can be found
 let g:clang_library_path = $HOME . '/Downloads/clang/lib/libclang.so.3.8'
-let g:clang_snippets = 1 " Snippets magic! Press <esc><Tab> to fill in the next argument
+" let g:clang_snippets = 1 " Snippets magic! Press <esc><Tab> to fill in the next argument
 let g:clang_jumpto_declaration_key = 0 " disabled
 
 " 4. Autoclose matching character pairs! (I have a modded version of this to
@@ -198,6 +198,10 @@ Plugin 'utags'
 " Plugin 'google/vim-searchindex'
 
 " This plugin automatically formats code on save!
+" Though if you don't want that add this command later in this file:
+" NoAutoFormatBuffer
+"
+" Also,
 " pip install yapf
 " Add maktaba and codefmt to the runtimepath.
 " (The latter must be installed before it can be used.)
@@ -322,20 +326,6 @@ nmap <C-Right> <C-w><Right>
 " Better editing/navigation
 " Alt key mappings (Linux + Mac)
 
-" Ctrl+g - go to line number
-inoremap <C-g> <Esc>:
-nnoremap <C-g> :
-
-" Commenting blocks of code.
-" Lets you easily press , to comment lines in insert/visual mode and . to uncomment
-let b:comment_leader='# '  " default commenting for files
-autocmd FileType c,cpp,java,javascript,go,proto    let b:comment_leader = '// '
-autocmd FileType tex                        let b:comment_leader = '% '
-autocmd FileType mail                       let b:comment_leader = '> '
-autocmd FileType vim                        let b:comment_leader = '" '
-noremap <silent> , :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> . :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
-
 " 333 HW3 Hex Tools!
 " Use :Hex to hexdump a file
 " Use :GoHex 0001 010f to go to file position 0x1010f
@@ -393,3 +383,8 @@ nnoremap gR gD:%s/<C-R>///gc<left><left><left>
 
 " TODO: Come up with a better sourcing solution
 source /homes/iws/jrios777/config/shortcuts.vim
+
+set exrc
+set secure
+
+au BufEnter *Makefrag set ft=make

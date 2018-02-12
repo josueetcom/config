@@ -100,16 +100,6 @@ inoremap  <Esc>yypi
 nnoremap  yyp
 vnoremap  yPgv
 
-" Shift+Ctrl+Down - move the line one down
-inoremap [1;6B <Esc>:m .+1<CR>==gi
-nnoremap [1;6B :m .+1<CR>==
-vnoremap [1;6B :m '>+1<CR>gv=gv
-
-" Shift+Ctrl+Up - move the line one up
-inoremap [1;6A <Esc>:m .-2<CR>==gi
-nnoremap [1;6A :m .-2<CR>==
-vnoremap [1;6A :m '<-2<CR>gv=gv
-
 
 " Indent - Tab
 " Unindent - Shift + Tab
@@ -119,18 +109,15 @@ nnoremap <S-Tab> <<
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 
-" Auto Indent - Alt + I
-vnoremap i =
-
 " ==== View ====
 
 " Show/Hide Project Tree - Alt + 1
 map 1 :NERDTreeToggle<CR>
-imap 1 <esc>:NERDTreeToggle<CR>a
+imap 1 <esc>:NERDTreeToggle<CR>
 
 " Show/Hide Outline - Alt + 7
 map 7 :TagbarToggle<CR>
-imap 7 <esc>:TagbarToggle<CR>a
+imap 7 <esc>:TagbarToggle<CR>
 
 " ==== Navigate ====
 
@@ -169,9 +156,22 @@ endf
 map <F2> :call SwapHeaderSource()<CR>
 
 
+function! CtrlB()
+  try
+    exe "tag " . expand("<cfile>")
+"     normal gf
+  catch /^Vim\%((\a\+)\)\=:E447/
+    exe "tag " . expand("<cword>")
+  endtry
+endfunction
 " Go to Definition - Ctrl + B
-map <C-B> :exe "tag " . expand("<cword>") <CR>
+map <C-B> :call CtrlB()<CR>
+"exe "tag " . expand("<cword>") <CR>
 imap <C-B> <esc><C-B>
+
+" Go to Line Number - Ctrl + G
+inoremap <C-g> <Esc>:
+nnoremap <C-g> :
 
 " ==== Code ====
 
@@ -186,8 +186,49 @@ map  ysiw
 vmap  S
 
 
+
+" Fold/Unfold
+
+
+" Insert Snippet? TODO
+
+
 " Comment/Uncomment
 " Mapping: Ctrl + /
 " Bundle: 'scrooloose/nerdcommenter'
-imap <C-_> <esc><leader>c<Space>a
+imap <C-_> <esc><leader>c<Space>gi
 map <C-_> <leader>c<Space>
+vmap <C-_> <leader>c<Space>gv
+
+" Reformat Code
+" Mapping: Ctrl + Alt + L
+" Bundle: google/vim-codefmt
+inoremap  <esc>:FormatCode<cr>gi
+noremap  <esc>:FormatCode<cr>
+vnoremap  <esc>:FormatLines<cr>gv
+
+" Auto Indent
+" Mapping: Shift + Ctrl + I
+inoremap  <esc>==gi
+noremap  ==
+vnoremap  =gv
+
+" Shift+Ctrl+Down - move the line one down
+inoremap [1;6B <Esc>:m .+1<CR>==gi
+nnoremap [1;6B :m .+1<CR>==
+vnoremap [1;6B :m '>+1<CR>gv=gv
+
+" Shift+Ctrl+Up - move the line one up
+inoremap [1;6A <Esc>:m .-2<CR>==gi
+nnoremap [1;6A :m .-2<CR>==
+vnoremap [1;6A :m '<-2<CR>gv=gv
+
+" Shift+Ctrl+Down - move the line one down
+inoremap [1;7B <Esc>:m .+1<CR>==gi
+nnoremap [1;7B :m .+1<CR>==
+vnoremap [1;7B :m '>+1<CR>gv=gv
+
+" Shift+Ctrl+Up - move the line one up
+inoremap [1;7A <Esc>:m .-2<CR>gi
+nnoremap [1;7A :m .-2<CR>
+vnoremap [1;7A :m '<-2<CR>gv
